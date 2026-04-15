@@ -41,7 +41,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
         >
-          We build high-converting, AI-powered websites for modern businesses
+          We build high-converting websites for modern businesses
         </motion.p>
 
         <motion.div

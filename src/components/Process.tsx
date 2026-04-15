@@ -4,7 +4,7 @@ import { Rocket, Palette, Code, Sparkles } from "lucide-react";
 const steps = [
   { icon: Rocket, title: "Plan", description: "We define your goals, audience, and strategy to chart the perfect course.", num: "01" },
   { icon: Palette, title: "Design", description: "Stunning visuals and intuitive UX that capture your brand's essence.", num: "02" },
-  { icon: Code, title: "Build", description: "Clean, performant code powered by modern technologies and AI.", num: "03" },
+  { icon: Code, title: "Build", description: "Clean, performant code powered by modern technologies and best practices.", num: "03" },
   { icon: Sparkles, title: "Launch", description: "Liftoff! Your site goes live with full support and ongoing optimization.", num: "04" },
 ];
 

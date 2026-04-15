@@ -3,7 +3,7 @@ import { Globe, Sparkles, Search, Zap } from "lucide-react";
 
 const services = [
   { icon: Globe, title: "Website Design", description: "Stunning, responsive websites crafted to captivate your audience and elevate your brand.", color: "from-primary to-neon-pink" },
-  { icon: Sparkles, title: "AI-Powered Websites", description: "Intelligent websites that learn, adapt, and deliver personalized experiences at scale.", color: "from-neon-blue to-primary" },
+  { icon: Sparkles, title: "Smart Websites", description: "Intelligent websites that adapt and deliver personalized experiences to your visitors.", color: "from-neon-blue to-primary" },
   { icon: Search, title: "SEO Optimization", description: "Dominate search rankings with data-driven strategies that put you ahead of the competition.", color: "from-neon-pink to-neon-violet" },
   { icon: Zap, title: "Automation & Integrations", description: "Streamline your workflows with seamless automations that save time and boost productivity.", color: "from-primary to-neon-blue" },
 ];
