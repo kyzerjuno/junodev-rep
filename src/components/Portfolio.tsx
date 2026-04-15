@@ -9,11 +9,6 @@ const projects = [
     image: restInPolishImg,
     url: "https://restinpolish.site/",
   },
-  {
-    title: "NovaTech SaaS",
-    category: "Web App",
-    gradient: "from-primary/40 to-neon-blue/40",
-  },
 ];
 
 const Portfolio = () => {
@@ -39,20 +34,13 @@ const Portfolio = () => {
                 className="glass-card-glow overflow-hidden group cursor-pointer"
                 onClick={() => project.url && window.open(project.url, "_blank")}
               >
-                {project.image ? (
-                  <div className="h-48 overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                ) : (
-                  <div className={`h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center relative`}>
-                    <div className="absolute inset-0 bg-background/20 group-hover:bg-background/10 transition-colors duration-300" />
-                    <span className="font-heading text-2xl font-bold text-foreground/80 relative z-10">{project.title}</span>
-                  </div>
-                )}
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
                 <div className="p-6">
                   <span className="text-xs text-primary font-medium uppercase tracking-wider">{project.category}</span>
                   <h3 className="font-heading text-lg font-semibold mt-1">{project.title}</h3>
