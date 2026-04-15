@@ -9,11 +9,6 @@ const projects = [
     image: restInPolishImg,
     url: "https://restinpolish.site/",
   },
-  {
-    title: "NovaTech SaaS",
-    category: "Web App",
-    gradient: "from-primary/40 to-neon-blue/40",
-  },
 ];
 
 const Portfolio = () => {
