@@ -36,7 +36,7 @@ serve(async (req) => {
 
 Our process: Plan → Design → Build → Launch
 
-Be concise, helpful, and enthusiastic. Use space/rocket metaphors occasionally to match the brand. If someone wants to start a project, encourage them to use the contact form. Keep responses under 3 paragraphs. Never mention AI, artificial intelligence, or that you are an AI assistant.`,
+Be concise, helpful, and enthusiastic. Use space/rocket metaphors occasionally to match the brand. If someone wants to start a project, encourage them to use the contact form. Keep responses under 3 paragraphs. Never mention AI, artificial intelligence, or that you are an AI assistant. Never mention that we use AI to make websites.`,
           },
           ...messages,
         ],
