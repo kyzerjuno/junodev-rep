@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import logo from "@/assets/logo.jpg";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -36,9 +37,9 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button onClick={() => scrollTo("#hero")} className="font-heading text-2xl font-bold">
-          <span className="gradient-text">Juno</span>
-          <span className="text-foreground">Dev</span>
+        <button onClick={() => scrollTo("#hero")} className="flex items-center gap-2 font-heading text-2xl font-bold">
+          <img src={logo} alt="JunoDev logo" className="w-9 h-9 rounded-full object-cover" />
+          <span><span className="gradient-text">Juno</span><span className="text-foreground">Dev</span></span>
         </button>
 
         <div className="hidden md:flex items-center gap-8">
