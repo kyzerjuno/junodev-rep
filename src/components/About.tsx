@@ -11,10 +11,10 @@ const About = () => {
               We're <span className="gradient-text">JunoDev</span>
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Born from a passion for space exploration and cutting-edge technology, JunoDev is a web development agency that helps businesses launch their digital presence into the stratosphere.
+              JunoDev is a web development agency inspired by space and modern tech. We help businesses build a strong online presence that actually works.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              We combine AI-powered innovation with stunning design to create websites that don't just look amazing — they convert, engage, and grow your business. Every pixel is purposeful. Every line of code is crafted with care.
+              We focus on clean design and smart strategy so your website doesn't just look good — it brings in customers and helps you grow. Every detail is intentional and built to perform.
             </p>
             <div className="flex gap-8">
               <div>
