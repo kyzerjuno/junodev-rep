@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import logo from "@/assets/logo.jpg";
 
 const Hero = () => {
   const scrollTo = (href: string) => {
@@ -18,6 +19,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+          <img src={logo} alt="JunoDev mascot" className="w-24 h-24 rounded-full object-cover mx-auto mb-6 ring-2 ring-primary/30 shadow-lg shadow-primary/20" />
           <span className="inline-block px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-medium mb-8 backdrop-blur-sm">
             🚀 Web Development Agency
           </span>
