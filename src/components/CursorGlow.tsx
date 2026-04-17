@@ -1,35 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const CursorGlow = () => {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      setVisible(true);
+    const el = ref.current;
+    if (!el) return;
+
+    let x = 0;
+    let y = 0;
+    let frame = 0;
+
+    const update = () => {
+      el.style.transform = `translate3d(${x - 150}px, ${y - 150}px, 0)`;
+      frame = 0;
     };
-    const handleLeave = () => setVisible(false);
+
+    const handleMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      el.style.opacity = "1";
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const handleLeave = () => {
+      el.style.opacity = "0";
+    };
+
     window.addEventListener("mousemove", handleMove);
     document.addEventListener("mouseleave", handleLeave);
     return () => {
       window.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseleave", handleLeave);
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
-  if (!visible) return null;
-
   return (
     <div
-      className="fixed pointer-events-none z-50 rounded-full"
+      ref={ref}
+      className="fixed top-0 left-0 pointer-events-none z-50 rounded-full opacity-0"
       style={{
-        left: pos.x - 150,
-        top: pos.y - 150,
         width: 300,
         height: 300,
         background: "radial-gradient(circle, hsl(270 80% 60% / 0.12) 0%, transparent 70%)",
-        transition: "left 0.1s ease-out, top 0.1s ease-out",
+        transition: "opacity 0.2s ease-out",
+        willChange: "transform",
       }}
     />
   );
