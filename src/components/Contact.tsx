@@ -1,14 +1,50 @@
 import ScrollReveal from "./ScrollReveal";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const NOTIFICATION_EMAIL = "kyzerborja5@gmail.com";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", form);
-    setForm({ name: "", email: "", message: "" });
+    if (submitting) return;
+
+    setSubmitting(true);
+    try {
+      const submissionId = crypto.randomUUID();
+      const submittedAt = new Date().toLocaleString("en-US", {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-notification",
+          recipientEmail: NOTIFICATION_EMAIL,
+          idempotencyKey: `contact-notify-${submissionId}`,
+          templateData: {
+            name: form.name,
+            email: form.email,
+            message: form.message,
+            submittedAt,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success("Message sent! We'll get back to you soon.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("Contact form error:", err);
+      toast.error("Couldn't send your message. Please try again or email us directly.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -67,9 +103,10 @@ const Contact = () => {
             </div>
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-medium glow-button transition-all duration-300 hover:scale-[1.02]"
+              disabled={submitting}
+              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-medium glow-button transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Send Message
+              {submitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </ScrollReveal>
