@@ -10,7 +10,7 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 const ChatBot = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hey! I'm Neo, JunoDev's assistant. Got questions about our services or want to start a project? I'm here to help!" },
+    { role: "assistant", content: "Hey! I'm Echo, JunoDev's assistant. Got questions about our services or want to start a project? I'm here to help!" },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -142,7 +142,7 @@ const ChatBot = () => {
                 <Sparkles className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="font-heading font-semibold text-sm">Neo</p>
+                <p className="font-heading font-semibold text-sm">Echo</p>
                 <p className="text-xs text-muted-foreground">Ask me anything</p>
               </div>
             </div>
