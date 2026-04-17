@@ -6,15 +6,79 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const MAX_MESSAGES = 20;
+const MAX_CONTENT_LENGTH = 1000;
+
+type ChatMessage = { role: "user" | "assistant"; content: string };
+
+function validateMessages(input: unknown): { ok: true; messages: ChatMessage[] } | { ok: false; error: string } {
+  if (!Array.isArray(input)) {
+    return { ok: false, error: "messages must be an array" };
+  }
+  if (input.length === 0) {
+    return { ok: false, error: "messages cannot be empty" };
+  }
+  if (input.length > MAX_MESSAGES) {
+    return { ok: false, error: `messages cannot exceed ${MAX_MESSAGES} items` };
+  }
+
+  const cleaned: ChatMessage[] = [];
+  for (const m of input) {
+    if (!m || typeof m !== "object") {
+      return { ok: false, error: "each message must be an object" };
+    }
+    const role = (m as Record<string, unknown>).role;
+    const content = (m as Record<string, unknown>).content;
+    if (role !== "user" && role !== "assistant") {
+      return { ok: false, error: "role must be 'user' or 'assistant'" };
+    }
+    if (typeof content !== "string") {
+      return { ok: false, error: "content must be a string" };
+    }
+    if (content.length === 0) {
+      return { ok: false, error: "content cannot be empty" };
+    }
+    if (content.length > MAX_CONTENT_LENGTH) {
+      return { ok: false, error: `content cannot exceed ${MAX_CONTENT_LENGTH} characters` };
+    }
+    cleaned.push({ role, content });
+  }
+  return { ok: true, messages: cleaned };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON payload" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const rawMessages = (body as { messages?: unknown })?.messages;
+    const validation = validateMessages(rawMessages);
+    if (!validation.ok) {
+      return new Response(JSON.stringify({ error: validation.error }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    if (!LOVABLE_API_KEY) {
+      console.error("LOVABLE_API_KEY is not configured");
+      return new Response(JSON.stringify({ error: "Service temporarily unavailable" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -38,7 +102,7 @@ Our process: Plan → Design → Build → Launch
 
 Talk like a normal, friendly person. Be helpful and straightforward — no hype, no buzzwords, no over-the-top enthusiasm. Keep answers short (1-2 paragraphs max). If someone wants to start a project, point them to the contact form. Never mention AI, artificial intelligence, or that you are an AI. Never say we use AI to build websites.`,
           },
-          ...messages,
+          ...validation.messages,
         ],
         stream: true,
       }),
@@ -59,7 +123,7 @@ Talk like a normal, friendly person. Be helpful and straightforward — no hype,
       }
       const t = await response.text();
       console.error("AI gateway error:", response.status, t);
-      return new Response(JSON.stringify({ error: "AI service unavailable" }), {
+      return new Response(JSON.stringify({ error: "Service temporarily unavailable" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -70,7 +134,7 @@ Talk like a normal, friendly person. Be helpful and straightforward — no hype,
     });
   } catch (e) {
     console.error("chat error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "An unexpected error occurred. Please try again." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
