@@ -18,10 +18,10 @@ const Contact = () => {
           <span className="text-primary text-sm font-medium uppercase tracking-widest">Contact</span>
           <h2 className="font-heading text-4xl md:text-5xl font-bold mt-3 mb-4">
             Let's Build Something{" "}
-            <span className="gradient-text">Out of This World</span>
+            <span className="gradient-text">Together</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Ready to launch? Drop us a message and let's make it happen.
+            Have a project in mind? Send us a message and we'll get back to you.
           </p>
         </ScrollReveal>
 
@@ -69,7 +69,7 @@ const Contact = () => {
               type="submit"
               className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-medium glow-button transition-all duration-300 hover:scale-[1.02]"
             >
-              Send Message 🚀
+              Send Message
             </button>
           </form>
         </ScrollReveal>
