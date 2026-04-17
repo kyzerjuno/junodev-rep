@@ -2,10 +2,10 @@ import ScrollReveal from "./ScrollReveal";
 import { Globe, Sparkles, Search, Zap } from "lucide-react";
 
 const services = [
-  { icon: Globe, title: "Website Design", description: "Stunning, responsive websites crafted to captivate your audience and elevate your brand.", color: "from-primary to-neon-pink" },
-  { icon: Sparkles, title: "Smart Websites", description: "Intelligent websites that adapt and deliver personalized experiences to your visitors.", color: "from-neon-blue to-primary" },
-  { icon: Search, title: "SEO Optimization", description: "Dominate search rankings with data-driven strategies that put you ahead of the competition.", color: "from-neon-pink to-neon-violet" },
-  { icon: Zap, title: "Automation & Integrations", description: "Streamline your workflows with seamless automations that save time and boost productivity.", color: "from-primary to-neon-blue" },
+  { icon: Globe, title: "Website Design", description: "Clean, responsive websites built to fit your brand and work well on any device.", color: "from-primary to-neon-pink" },
+  { icon: Sparkles, title: "Smart Websites", description: "Sites that adapt over time and give your visitors a better experience.", color: "from-neon-blue to-primary" },
+  { icon: Search, title: "SEO Optimization", description: "Practical strategies to help your business rank higher and get found on search engines.", color: "from-neon-pink to-neon-violet" },
+  { icon: Zap, title: "Automation & Integrations", description: "Connect your tools and automate the busywork so you can focus on what matters.", color: "from-primary to-neon-blue" },
 ];
 
 const Services = () => {
@@ -18,7 +18,7 @@ const Services = () => {
             Our <span className="gradient-text">Services</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Everything your business needs to thrive in the digital universe
+            Everything your business needs to grow online
           </p>
         </ScrollReveal>
 

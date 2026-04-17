@@ -2,10 +2,10 @@ import ScrollReveal from "./ScrollReveal";
 import { Rocket, Palette, Code, Sparkles } from "lucide-react";
 
 const steps = [
-  { icon: Rocket, title: "Plan", description: "We define your goals, audience, and strategy to chart the perfect course.", num: "01" },
-  { icon: Palette, title: "Design", description: "Stunning visuals and intuitive UX that capture your brand's essence.", num: "02" },
-  { icon: Code, title: "Build", description: "Clean, performant code powered by modern technologies and best practices.", num: "03" },
-  { icon: Sparkles, title: "Launch", description: "Liftoff! Your site goes live with full support and ongoing optimization.", num: "04" },
+  { icon: Rocket, title: "Plan", description: "We start by understanding your goals, your audience, and what success looks like for you.", num: "01" },
+  { icon: Palette, title: "Design", description: "Clean, thoughtful design that fits your brand and makes things easy to use.", num: "02" },
+  { icon: Code, title: "Build", description: "Well-built code using modern tools, focused on speed and reliability.", num: "03" },
+  { icon: Sparkles, title: "Launch", description: "Your site goes live, and we stick around for support and improvements.", num: "04" },
 ];
 
 const Process = () => {
@@ -18,7 +18,7 @@ const Process = () => {
             Our <span className="gradient-text">Process</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            From ignition to orbit — a seamless launch sequence
+            A simple, four-step process from idea to launch
           </p>
         </ScrollReveal>
 

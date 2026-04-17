@@ -32,13 +32,18 @@ const Footer = () => {
           </div>
 
           <div className="flex gap-4 justify-end">
-            {["Twitter", "LinkedIn", "GitHub"].map((social) => (
+            {[
+              { name: "LinkedIn", href: "https://www.linkedin.com/in/kyzerjuno/" },
+              { name: "GitHub", href: "https://github.com/kyzerjuno" },
+            ].map((social) => (
               <a
-                key={social}
-                href="#"
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                {social}
+                {social.name}
               </a>
             ))}
           </div>

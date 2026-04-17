@@ -21,7 +21,7 @@ const Portfolio = () => {
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Explore the digital experiences we've launched into the world
+            A look at some of the work we've done for our clients
           </p>
         </ScrollReveal>
 

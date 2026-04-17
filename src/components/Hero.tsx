@@ -21,7 +21,7 @@ const Hero = () => {
         >
           <img src={logo} alt="JunoDev mascot" className="w-24 h-24 rounded-full object-cover mx-auto mb-6 ring-2 ring-primary/30 shadow-lg shadow-primary/20" />
           <span className="inline-block px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-medium mb-8 backdrop-blur-sm">
-            🚀 Web Development Agency
+            Web Development Agency
           </span>
         </motion.div>
 
@@ -31,8 +31,8 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.15 }}
           className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
         >
-          Launch Your Business{" "}
-          <span className="gradient-text">Into Orbit</span>
+          Websites That{" "}
+          <span className="gradient-text">Work For You</span>
         </motion.h1>
 
         <motion.p
