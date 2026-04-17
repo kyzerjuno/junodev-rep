@@ -107,7 +107,7 @@ const ChatBot = () => {
       console.error("Chat error:", e);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again or use our contact form! 🛸" },
+        { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again or use our contact form." },
       ]);
     } finally {
       setIsLoading(false);
