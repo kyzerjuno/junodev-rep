@@ -36,7 +36,7 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button onClick={() => scrollTo("#hero")} className="flex items-center gap-2 font-heading text-2xl font-bold">
+        <button type="button" onClick={() => scrollTo("#hero")} className="flex items-center gap-2 font-heading text-2xl font-bold cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md caret-transparent">
           <img src={logo} alt="JunoDev logo" className="w-9 h-9 rounded-full object-cover" />
           <span><span className="gradient-text">Juno</span><span className="text-foreground">Dev</span></span>
         </button>
