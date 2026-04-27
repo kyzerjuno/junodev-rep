@@ -40,7 +40,6 @@ interface FormState {
   // Step 4 — Design
   designStyle: string;
   inspiration: string;
-  inspiration: string;
   // Step 5 — Photos / assets
   photos: UploadedFile[];
   photoNotes: string;
