@@ -31,7 +31,6 @@ interface ProjectQuestionnaireProps {
   features?: string
   designStyle?: string
   inspiration?: string
-  inspiration?: string
   photos?: PhotoAttachment[]
   photoNotes?: string
   budget?: string
@@ -57,7 +56,6 @@ const ProjectQuestionnaireEmail = ({
   projectType,
   features,
   designStyle,
-  inspiration,
   inspiration,
   photos,
   photoNotes,
