@@ -67,15 +67,6 @@ const DESIGN_STYLES = [
   "Not sure — I trust your judgment",
 ];
 
-const BUDGETS = [
-  "Under $2k",
-  "$2k – $5k",
-  "$5k – $10k",
-  "$10k – $25k",
-  "$25k+",
-  "Let's discuss",
-];
-
 const TIMELINES = [
   "ASAP (under 1 month)",
   "1 – 2 months",
@@ -388,27 +379,18 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
 
               {step === 4 && (
                 <div className="space-y-5">
-                  <div className="space-y-3">
-                    <Label>Budget range *</Label>
-                    <RadioGroup
+                  <div className="space-y-2">
+                    <Label htmlFor="q-budget">Budget *</Label>
+                    <p className="text-sm text-muted-foreground">
+                      A rough range is fine — it helps us scope the right solution for you.
+                    </p>
+                    <Input
+                      id="q-budget"
                       value={form.budget}
-                      onValueChange={(v) => update("budget", v)}
-                      className="grid sm:grid-cols-2 gap-2"
-                    >
-                      {BUDGETS.map((b) => (
-                        <label
-                          key={b}
-                          className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all ${
-                            form.budget === b
-                              ? "border-primary bg-primary/10"
-                              : "border-border hover:border-primary/50 hover:bg-muted/40"
-                          }`}
-                        >
-                          <RadioGroupItem value={b} id={`b-${b}`} />
-                          <span className="text-sm">{b}</span>
-                        </label>
-                      ))}
-                    </RadioGroup>
+                      onChange={(e) => update("budget", e.target.value)}
+                      maxLength={100}
+                      placeholder="e.g. $5,000 or $10k – $15k"
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label>Timeline *</Label>
