@@ -169,6 +169,11 @@ export const template = {
     designStyle: 'Editorial / minimal with warm earth tones',
     inspiration: 'https://example.com/inspo1\nhttps://example.com/inspo2',
     brandAssets: 'Logo + brand guidelines ready. No photography yet.',
+    photos: [
+      { name: 'logo-draft.png', url: 'https://example.com/uploads/logo-draft.png' },
+      { name: 'moodboard.pdf', url: 'https://example.com/uploads/moodboard.pdf' },
+    ],
+    photoNotes: 'Logo is a working draft — open to refinement. Mood board is just inspiration.',
     budget: '$10k – $25k',
     timeline: '2 – 3 months',
     submittedAt: 'April 27, 2026 at 10:15 AM',
