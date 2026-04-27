@@ -67,15 +67,6 @@ const DESIGN_STYLES = [
   "Not sure — I trust your judgment",
 ];
 
-const BUDGETS_DEPRECATED = [
-  "Under $2k",
-  "$2k – $5k",
-  "$5k – $10k",
-  "$10k – $25k",
-  "$25k+",
-  "Let's discuss",
-];
-
 const TIMELINES = [
   "ASAP (under 1 month)",
   "1 – 2 months",
