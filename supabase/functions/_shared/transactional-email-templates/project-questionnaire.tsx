@@ -19,6 +19,7 @@ const SITE_NAME = 'JunoDev'
 interface ProjectQuestionnaireProps {
   name?: string
   email?: string
+  phone?: string
   company?: string
   vision?: string
   projectType?: string
