@@ -44,6 +44,7 @@ const Field = ({ label, value, multiline = false }: { label: string; value?: str
 const ProjectQuestionnaireEmail = ({
   name,
   email,
+  phone,
   company,
   vision,
   projectType,
@@ -70,6 +71,8 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Name" value={name} />
           <Hr style={hr} />
           <Field label="Email" value={email} />
+          <Hr style={hr} />
+          <Field label="Phone" value={phone} />
           <Hr style={hr} />
           <Field label="Company" value={company} />
         </Section>
