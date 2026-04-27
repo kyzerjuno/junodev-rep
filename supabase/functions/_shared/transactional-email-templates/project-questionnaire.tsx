@@ -19,6 +19,7 @@ const SITE_NAME = 'JunoDev'
 interface ProjectQuestionnaireProps {
   name?: string
   email?: string
+  phone?: string
   company?: string
   vision?: string
   projectType?: string
@@ -43,6 +44,7 @@ const Field = ({ label, value, multiline = false }: { label: string; value?: str
 const ProjectQuestionnaireEmail = ({
   name,
   email,
+  phone,
   company,
   vision,
   projectType,
@@ -69,6 +71,8 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Name" value={name} />
           <Hr style={hr} />
           <Field label="Email" value={email} />
+          <Hr style={hr} />
+          <Field label="Phone" value={phone} />
           <Hr style={hr} />
           <Field label="Company" value={company} />
         </Section>
@@ -123,6 +127,7 @@ export const template = {
   previewData: {
     name: 'Jane Doe',
     email: 'jane@acme.com',
+    phone: '+1 555 123 4567',
     company: 'Acme Inc.',
     vision:
       'We want a bold, modern site that positions us as the leading sustainable coffee brand in Europe. Storytelling first, with a shop layered in.',

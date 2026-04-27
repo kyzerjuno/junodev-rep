@@ -20,6 +20,7 @@ interface FormState {
   // Step 1 — Contact
   name: string;
   email: string;
+  phone: string;
   company: string;
   // Step 2 — Vision
   vision: string;
@@ -38,6 +39,7 @@ interface FormState {
 const INITIAL_STATE: FormState = {
   name: "",
   email: "",
+  phone: "",
   company: "",
   vision: "",
   projectType: "",
@@ -249,15 +251,28 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="q-company">Company / brand</Label>
-                    <Input
-                      id="q-company"
-                      value={form.company}
-                      onChange={(e) => update("company", e.target.value)}
-                      maxLength={150}
-                      placeholder="Acme Inc. (optional)"
-                    />
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="q-phone">Phone</Label>
+                      <Input
+                        id="q-phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) => update("phone", e.target.value)}
+                        maxLength={30}
+                        placeholder="+1 555 123 4567 (optional)"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="q-company">Company / brand</Label>
+                      <Input
+                        id="q-company"
+                        value={form.company}
+                        onChange={(e) => update("company", e.target.value)}
+                        maxLength={150}
+                        placeholder="Acme Inc. (optional)"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
