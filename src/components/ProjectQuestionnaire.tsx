@@ -255,7 +255,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border/60 p-0 overflow-hidden max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-2xl bg-card border-border/60 p-0 overflow-hidden w-[calc(100vw-1rem)] sm:w-full max-h-[100dvh] sm:max-h-[90vh] h-[100dvh] sm:h-auto sm:rounded-lg rounded-2xl flex flex-col">
         {submitted ? (
           <div className="p-10 text-center space-y-5">
             <div className="mx-auto w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center">
