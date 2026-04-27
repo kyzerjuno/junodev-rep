@@ -127,6 +127,7 @@ export const template = {
   previewData: {
     name: 'Jane Doe',
     email: 'jane@acme.com',
+    phone: '+1 555 123 4567',
     company: 'Acme Inc.',
     vision:
       'We want a bold, modern site that positions us as the leading sustainable coffee brand in Europe. Storytelling first, with a shop layered in.',
