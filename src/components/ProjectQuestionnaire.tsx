@@ -20,6 +20,7 @@ interface FormState {
   // Step 1 — Contact
   name: string;
   email: string;
+  phone: string;
   company: string;
   // Step 2 — Vision
   vision: string;
@@ -38,6 +39,7 @@ interface FormState {
 const INITIAL_STATE: FormState = {
   name: "",
   email: "",
+  phone: "",
   company: "",
   vision: "",
   projectType: "",
