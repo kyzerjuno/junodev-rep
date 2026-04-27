@@ -182,7 +182,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
             </div>
             <DialogHeader>
               <DialogTitle className="font-heading text-3xl text-center">
-                Liftoff in <span className="gradient-text">3, 2, 1...</span>
+                Thanks for reaching out!
               </DialogTitle>
               <DialogDescription className="text-center text-base text-muted-foreground pt-2">
                 Thanks {form.name.split(" ")[0] || "there"}! We've received your project brief and will get back to you within 24 hours with next steps.
