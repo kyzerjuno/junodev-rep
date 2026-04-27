@@ -59,6 +59,8 @@ const ProjectQuestionnaireEmail = ({
   designStyle,
   inspiration,
   brandAssets,
+  photos,
+  photoNotes,
   budget,
   timeline,
   submittedAt,
