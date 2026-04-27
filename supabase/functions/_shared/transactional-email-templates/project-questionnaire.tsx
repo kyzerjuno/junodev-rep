@@ -31,7 +31,7 @@ interface ProjectQuestionnaireProps {
   features?: string
   designStyle?: string
   inspiration?: string
-  brandAssets?: string
+  inspiration?: string
   photos?: PhotoAttachment[]
   photoNotes?: string
   budget?: string
@@ -58,7 +58,7 @@ const ProjectQuestionnaireEmail = ({
   features,
   designStyle,
   inspiration,
-  brandAssets,
+  inspiration,
   photos,
   photoNotes,
   budget,
@@ -103,8 +103,6 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Style direction" value={designStyle} />
           <Hr style={hr} />
           <Field label="Inspiration links" value={inspiration} multiline />
-          <Hr style={hr} />
-          <Field label="Brand assets" value={brandAssets} multiline />
         </Section>
 
         {(photos && photos.length > 0) || (photoNotes && photoNotes.trim().length > 0) ? (
