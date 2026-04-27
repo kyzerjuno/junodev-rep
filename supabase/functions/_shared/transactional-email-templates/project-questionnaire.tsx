@@ -16,6 +16,11 @@ import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'JunoDev'
 
+interface PhotoAttachment {
+  name: string
+  url: string
+}
+
 interface ProjectQuestionnaireProps {
   name?: string
   email?: string
@@ -27,6 +32,8 @@ interface ProjectQuestionnaireProps {
   designStyle?: string
   inspiration?: string
   brandAssets?: string
+  photos?: PhotoAttachment[]
+  photoNotes?: string
   budget?: string
   timeline?: string
   submittedAt?: string

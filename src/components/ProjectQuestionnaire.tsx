@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,13 +7,23 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check, Loader2, Rocket } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2, Rocket, Upload, X, Image as ImageIcon } from "lucide-react";
 
 const NOTIFICATION_EMAIL = "kyzerborja5@gmail.com";
+const UPLOAD_BUCKET = "questionnaire-uploads";
+const MAX_FILES = 10;
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 interface ProjectQuestionnaireProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+interface UploadedFile {
+  name: string;
+  url: string;
+  size: number;
 }
 
 interface FormState {
@@ -31,7 +41,10 @@ interface FormState {
   designStyle: string;
   inspiration: string;
   brandAssets: string;
-  // Step 5 — Budget & timeline
+  // Step 5 — Photos / assets
+  photos: UploadedFile[];
+  photoNotes: string;
+  // Step 6 — Budget & timeline
   budget: string;
   timeline: string;
 }
@@ -47,6 +60,8 @@ const INITIAL_STATE: FormState = {
   designStyle: "",
   inspiration: "",
   brandAssets: "",
+  photos: [],
+  photoNotes: "",
   budget: "",
   timeline: "",
 };
@@ -82,16 +97,25 @@ const STEP_TITLES = [
   "Your vision",
   "Project & features",
   "Design direction",
+  "Photos & assets",
   "Budget & timeline",
 ];
 
 const TOTAL_STEPS = STEP_TITLES.length;
+
+const formatBytes = (bytes: number) => {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
 
 const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps) => {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -101,6 +125,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
     setForm(INITIAL_STATE);
     setSubmitted(false);
     setSubmitting(false);
+    setUploading(false);
   };
 
   const handleOpenChange = (next: boolean) => {
@@ -108,6 +133,57 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
     if (!next && !submitting) onOpenChange(false);
     else if (next) onOpenChange(true);
   };
+
+  const handleFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+
+    const remaining = MAX_FILES - form.photos.length;
+    if (remaining <= 0) {
+      toast.error(`You can upload up to ${MAX_FILES} files.`);
+      return;
+    }
+
+    const toUpload = Array.from(files).slice(0, remaining);
+    const oversized = toUpload.find((f) => f.size > MAX_FILE_SIZE_BYTES);
+    if (oversized) {
+      toast.error(`"${oversized.name}" is over ${MAX_FILE_SIZE_MB}MB.`);
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const uploaded: UploadedFile[] = [];
+      for (const file of toUpload) {
+        const ext = file.name.split(".").pop() || "bin";
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${crypto.randomUUID()}/${safeName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(UPLOAD_BUCKET)
+          .upload(path, file, {
+            cacheControl: "3600",
+            contentType: file.type || `application/${ext}`,
+            upsert: false,
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = supabase.storage.from(UPLOAD_BUCKET).getPublicUrl(path);
+        uploaded.push({ name: file.name, url: urlData.publicUrl, size: file.size });
+      }
+      setForm((prev) => ({ ...prev, photos: [...prev.photos, ...uploaded] }));
+      toast.success(`${uploaded.length} file${uploaded.length > 1 ? "s" : ""} uploaded`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error("Couldn't upload one or more files. Please try again.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const removePhoto = (idx: number) =>
+    setForm((prev) => ({ ...prev, photos: prev.photos.filter((_, i) => i !== idx) }));
 
   const isStepValid = (): boolean => {
     switch (step) {
@@ -120,6 +196,8 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
       case 3:
         return form.designStyle.trim().length > 0;
       case 4:
+        return true; // photos step is optional
+      case 5:
         return form.budget.trim().length > 0 && form.timeline.trim().length > 0;
       default:
         return false;
@@ -148,13 +226,16 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
         timeStyle: "short",
       });
 
+      const { photos, ...rest } = form;
+
       const { error } = await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "project-questionnaire",
           recipientEmail: NOTIFICATION_EMAIL,
           idempotencyKey: `project-questionnaire-${submissionId}`,
           templateData: {
-            ...form,
+            ...rest,
+            photos: photos.map((p) => ({ name: p.name, url: p.url })),
             submittedAt,
           },
         },
@@ -395,6 +476,95 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
               {step === 4 && (
                 <div className="space-y-5">
                   <div className="space-y-2">
+                    <Label>Photos & reference images</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Upload logos, mockups, photos, screenshots, or anything visual that will help us understand your project. Optional — up to {MAX_FILES} files, {MAX_FILE_SIZE_MB}MB each.
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleFiles(e.dataTransfer.files);
+                    }}
+                    className="border-2 border-dashed border-border rounded-xl px-6 py-10 text-center cursor-pointer hover:border-primary/60 hover:bg-muted/30 transition-all"
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*,.pdf"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => handleFiles(e.target.files)}
+                      disabled={uploading || form.photos.length >= MAX_FILES}
+                    />
+                    {uploading ? (
+                      <>
+                        <Loader2 className="w-8 h-8 mx-auto mb-3 text-primary animate-spin" />
+                        <p className="text-sm text-muted-foreground">Uploading…</p>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-8 h-8 mx-auto mb-3 text-primary" />
+                        <p className="text-sm font-medium">
+                          Drop files here or click to upload
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Images and PDFs · {form.photos.length} / {MAX_FILES} used
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  {form.photos.length > 0 && (
+                    <div className="space-y-2">
+                      {form.photos.map((file, idx) => (
+                        <div
+                          key={`${file.url}-${idx}`}
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg border border-border bg-muted/30"
+                        >
+                          <ImageIcon className="w-4 h-4 text-primary flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm truncate">{file.name}</p>
+                            <p className="text-xs text-muted-foreground">{formatBytes(file.size)}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removePhoto(idx)}
+                            className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                            aria-label={`Remove ${file.name}`}
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="q-photo-notes">Notes about your assets</Label>
+                    <Textarea
+                      id="q-photo-notes"
+                      value={form.photoNotes}
+                      onChange={(e) => update("photoNotes", e.target.value)}
+                      maxLength={500}
+                      rows={3}
+                      placeholder="Any context about the files? E.g. 'logo is a working draft', 'these are mood-board references, not final'…"
+                      className="resize-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {step === 5 && (
+                <div className="space-y-5">
+                  <div className="space-y-2">
                     <Label htmlFor="q-budget">Budget *</Label>
                     <p className="text-sm text-muted-foreground">
                       A rough range is fine — it helps us scope the right solution for you.
@@ -445,14 +615,14 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
               </Button>
 
               {step < TOTAL_STEPS - 1 ? (
-                <Button onClick={handleNext} className="gap-2 glow-button">
+                <Button onClick={handleNext} disabled={uploading} className="gap-2 glow-button">
                   Next
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               ) : (
                 <Button
                   onClick={handleSubmit}
-                  disabled={submitting || !isStepValid()}
+                  disabled={submitting || uploading || !isStepValid()}
                   className="gap-2 glow-button"
                 >
                   {submitting ? (
