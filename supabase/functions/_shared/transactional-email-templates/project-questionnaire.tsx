@@ -31,7 +31,6 @@ interface ProjectQuestionnaireProps {
   features?: string
   designStyle?: string
   inspiration?: string
-  brandAssets?: string
   photos?: PhotoAttachment[]
   photoNotes?: string
   budget?: string
@@ -58,7 +57,6 @@ const ProjectQuestionnaireEmail = ({
   features,
   designStyle,
   inspiration,
-  brandAssets,
   photos,
   photoNotes,
   budget,
@@ -103,8 +101,6 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Style direction" value={designStyle} />
           <Hr style={hr} />
           <Field label="Inspiration links" value={inspiration} multiline />
-          <Hr style={hr} />
-          <Field label="Brand assets" value={brandAssets} multiline />
         </Section>
 
         {(photos && photos.length > 0) || (photoNotes && photoNotes.trim().length > 0) ? (
@@ -168,7 +164,7 @@ export const template = {
     features: 'Product catalog, Stripe checkout, blog/CMS, newsletter signup, multi-language',
     designStyle: 'Editorial / minimal with warm earth tones',
     inspiration: 'https://example.com/inspo1\nhttps://example.com/inspo2',
-    brandAssets: 'Logo + brand guidelines ready. No photography yet.',
+    
     photos: [
       { name: 'logo-draft.png', url: 'https://example.com/uploads/logo-draft.png' },
       { name: 'moodboard.pdf', url: 'https://example.com/uploads/moodboard.pdf' },

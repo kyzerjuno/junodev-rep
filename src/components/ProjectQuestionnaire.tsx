@@ -40,7 +40,6 @@ interface FormState {
   // Step 4 — Design
   designStyle: string;
   inspiration: string;
-  brandAssets: string;
   // Step 5 — Photos / assets
   photos: UploadedFile[];
   photoNotes: string;
@@ -59,7 +58,6 @@ const INITIAL_STATE: FormState = {
   features: "",
   designStyle: "",
   inspiration: "",
-  brandAssets: "",
   photos: [],
   photoNotes: "",
   budget: "",
@@ -455,18 +453,6 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                       maxLength={1000}
                       rows={3}
                       placeholder="Drop URLs of sites/brands you love (one per line)"
-                      className="resize-none"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="q-brand">Brand assets</Label>
-                    <Textarea
-                      id="q-brand"
-                      value={form.brandAssets}
-                      onChange={(e) => update("brandAssets", e.target.value)}
-                      maxLength={500}
-                      rows={2}
-                      placeholder="Do you have a logo, brand guidelines, or photography ready? Or do you need help with branding too?"
                       className="resize-none"
                     />
                   </div>
