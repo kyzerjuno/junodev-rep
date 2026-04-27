@@ -107,6 +107,30 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Brand assets" value={brandAssets} multiline />
         </Section>
 
+        {(photos && photos.length > 0) || (photoNotes && photoNotes.trim().length > 0) ? (
+          <Section style={card}>
+            <Heading as="h2" style={h2}>Photos & assets</Heading>
+            {photos && photos.length > 0 ? (
+              <>
+                <Text style={fieldLabel}>Uploaded files ({photos.length})</Text>
+                {photos.map((photo, idx) => (
+                  <Text key={idx} style={fieldValue}>
+                    <Link href={photo.url} style={link}>
+                      {photo.name || `File ${idx + 1}`}
+                    </Link>
+                  </Text>
+                ))}
+              </>
+            ) : null}
+            {photoNotes && photoNotes.trim().length > 0 ? (
+              <>
+                {photos && photos.length > 0 ? <Hr style={hr} /> : null}
+                <Field label="Notes about assets" value={photoNotes} multiline />
+              </>
+            ) : null}
+          </Section>
+        ) : null}
+
         <Section style={card}>
           <Heading as="h2" style={h2}>Budget & timeline</Heading>
           <Field label="Budget range" value={budget} />
