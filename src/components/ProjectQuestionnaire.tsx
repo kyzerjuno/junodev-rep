@@ -255,7 +255,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border/60 p-0 overflow-hidden max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-2xl bg-card border-border/60 p-0 overflow-hidden w-[calc(100vw-1rem)] sm:w-full max-h-[100dvh] sm:max-h-[90vh] h-[100dvh] sm:h-auto sm:rounded-lg rounded-2xl flex flex-col">
         {submitted ? (
           <div className="p-10 text-center space-y-5">
             <div className="mx-auto w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center">
@@ -282,13 +282,13 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
         ) : (
           <>
             {/* Header with progress */}
-            <div className="px-6 md:px-8 pt-6 md:pt-8 pb-4 border-b border-border/40">
+            <div className="px-5 sm:px-6 md:px-8 pt-5 sm:pt-6 md:pt-8 pb-4 pr-12 sm:pr-14 border-b border-border/40">
               <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-primary font-medium mb-2">
                 <Rocket className="w-3.5 h-3.5" />
                 Step {step + 1} of {TOTAL_STEPS}
               </div>
               <DialogHeader>
-                <DialogTitle className="font-heading text-2xl md:text-3xl">
+                <DialogTitle className="font-heading text-xl sm:text-2xl md:text-3xl">
                   {STEP_TITLES[step]}
                 </DialogTitle>
                 <DialogDescription className="sr-only">
@@ -304,7 +304,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
             </div>
 
             {/* Step content */}
-            <div className="px-6 md:px-8 py-6 overflow-y-auto flex-1">
+            <div className="px-5 sm:px-6 md:px-8 py-5 sm:py-6 overflow-y-auto flex-1 overscroll-contain">
               {step === 0 && (
                 <div className="space-y-5">
                   <div className="grid md:grid-cols-2 gap-4">
@@ -589,19 +589,23 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
             </div>
 
             {/* Footer / nav */}
-            <div className="px-6 md:px-8 py-4 border-t border-border/40 flex items-center justify-between gap-3 bg-muted/20">
+            <div className="px-5 sm:px-6 md:px-8 py-3 sm:py-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-border/40 flex items-center justify-between gap-3 bg-muted/20">
               <Button
                 variant="ghost"
                 onClick={handleBack}
                 disabled={step === 0 || submitting}
-                className="gap-2"
+                className="gap-2 h-11 px-3 sm:px-4"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back
+                <span className="hidden sm:inline">Back</span>
               </Button>
 
               {step < TOTAL_STEPS - 1 ? (
-                <Button onClick={handleNext} disabled={uploading} className="gap-2 glow-button">
+                <Button
+                  onClick={handleNext}
+                  disabled={uploading}
+                  className="gap-2 glow-button h-11 flex-1 sm:flex-initial sm:px-6"
+                >
                   Next
                   <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -609,7 +613,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                 <Button
                   onClick={handleSubmit}
                   disabled={submitting || uploading || !isStepValid()}
-                  className="gap-2 glow-button"
+                  className="gap-2 glow-button h-11 flex-1 sm:flex-initial sm:px-6"
                 >
                   {submitting ? (
                     <>
@@ -619,7 +623,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                   ) : (
                     <>
                       <Rocket className="w-4 h-4" />
-                      Launch project brief
+                      <span className="truncate">Launch project brief</span>
                     </>
                   )}
                 </Button>
