@@ -16,6 +16,11 @@ import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'JunoDev'
 
+interface PhotoAttachment {
+  name: string
+  url: string
+}
+
 interface ProjectQuestionnaireProps {
   name?: string
   email?: string
@@ -27,6 +32,8 @@ interface ProjectQuestionnaireProps {
   designStyle?: string
   inspiration?: string
   brandAssets?: string
+  photos?: PhotoAttachment[]
+  photoNotes?: string
   budget?: string
   timeline?: string
   submittedAt?: string
@@ -52,6 +59,8 @@ const ProjectQuestionnaireEmail = ({
   designStyle,
   inspiration,
   brandAssets,
+  photos,
+  photoNotes,
   budget,
   timeline,
   submittedAt,
@@ -98,6 +107,30 @@ const ProjectQuestionnaireEmail = ({
           <Field label="Brand assets" value={brandAssets} multiline />
         </Section>
 
+        {(photos && photos.length > 0) || (photoNotes && photoNotes.trim().length > 0) ? (
+          <Section style={card}>
+            <Heading as="h2" style={h2}>Photos & assets</Heading>
+            {photos && photos.length > 0 ? (
+              <>
+                <Text style={fieldLabel}>Uploaded files ({photos.length})</Text>
+                {photos.map((photo, idx) => (
+                  <Text key={idx} style={fieldValue}>
+                    <Link href={photo.url} style={link}>
+                      {photo.name || `File ${idx + 1}`}
+                    </Link>
+                  </Text>
+                ))}
+              </>
+            ) : null}
+            {photoNotes && photoNotes.trim().length > 0 ? (
+              <>
+                {photos && photos.length > 0 ? <Hr style={hr} /> : null}
+                <Field label="Notes about assets" value={photoNotes} multiline />
+              </>
+            ) : null}
+          </Section>
+        ) : null}
+
         <Section style={card}>
           <Heading as="h2" style={h2}>Budget & timeline</Heading>
           <Field label="Budget range" value={budget} />
@@ -136,6 +169,11 @@ export const template = {
     designStyle: 'Editorial / minimal with warm earth tones',
     inspiration: 'https://example.com/inspo1\nhttps://example.com/inspo2',
     brandAssets: 'Logo + brand guidelines ready. No photography yet.',
+    photos: [
+      { name: 'logo-draft.png', url: 'https://example.com/uploads/logo-draft.png' },
+      { name: 'moodboard.pdf', url: 'https://example.com/uploads/moodboard.pdf' },
+    ],
+    photoNotes: 'Logo is a working draft — open to refinement. Mood board is just inspiration.',
     budget: '$10k – $25k',
     timeline: '2 – 3 months',
     submittedAt: 'April 27, 2026 at 10:15 AM',
