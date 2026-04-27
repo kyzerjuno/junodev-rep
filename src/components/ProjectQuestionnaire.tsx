@@ -67,7 +67,7 @@ const DESIGN_STYLES = [
   "Not sure — I trust your judgment",
 ];
 
-const BUDGETS = [
+const BUDGETS_DEPRECATED = [
   "Under $2k",
   "$2k – $5k",
   "$5k – $10k",
