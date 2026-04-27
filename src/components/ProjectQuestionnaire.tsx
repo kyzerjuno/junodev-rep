@@ -458,18 +458,6 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                       className="resize-none"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="q-brand">Brand assets</Label>
-                    <Textarea
-                      id="q-brand"
-                      value={form.brandAssets}
-                      onChange={(e) => update("brandAssets", e.target.value)}
-                      maxLength={500}
-                      rows={2}
-                      placeholder="Do you have a logo, brand guidelines, or photography ready? Or do you need help with branding too?"
-                      className="resize-none"
-                    />
-                  </div>
                 </div>
               )}
 
