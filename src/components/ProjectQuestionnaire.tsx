@@ -389,7 +389,7 @@ const ProjectQuestionnaire = ({ open, onOpenChange }: ProjectQuestionnaireProps)
                       value={form.budget}
                       onChange={(e) => update("budget", e.target.value)}
                       maxLength={100}
-                      placeholder="e.g. $5,000 or $10k – $15k"
+                      placeholder="0 - 1000"
                     />
                   </div>
                   <div className="space-y-3">
