@@ -59,7 +59,6 @@ const INITIAL_STATE: FormState = {
   features: "",
   designStyle: "",
   inspiration: "",
-  brandAssets: "",
   photos: [],
   photoNotes: "",
   budget: "",
