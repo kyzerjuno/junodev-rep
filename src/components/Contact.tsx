@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import { useState } from "react";
-import { Rocket, Sparkles, Mail, Send, Loader2 } from "lucide-react";
+import { Rocket, Sparkles, Mail, Send, Loader2, Briefcase } from "lucide-react";
 import ProjectQuestionnaire from "./ProjectQuestionnaire";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,8 @@ const Contact = () => {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [mgmtSubmitting, setMgmtSubmitting] = useState(false);
+  const [mgmtForm, setMgmtForm] = useState({ name: "", email: "", company: "", subject: "", message: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,10 +31,7 @@ const Contact = () => {
             name: form.name,
             email: form.email,
             message: form.message,
-            submittedAt: new Date().toLocaleString("en-US", {
-              dateStyle: "long",
-              timeStyle: "short",
-            }),
+            submittedAt: new Date().toLocaleString("en-US", { dateStyle: "long", timeStyle: "short" }),
           },
         },
       });
@@ -44,6 +43,36 @@ const Contact = () => {
       toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleMgmtSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!mgmtForm.name.trim() || !mgmtForm.email.trim() || !mgmtForm.subject.trim() || !mgmtForm.message.trim()) {
+      toast({ title: "Please fill in the required fields", variant: "destructive" });
+      return;
+    }
+    setMgmtSubmitting(true);
+    try {
+      const id = crypto.randomUUID();
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "management-inquiry",
+          idempotencyKey: `mgmt-${id}`,
+          templateData: {
+            ...mgmtForm,
+            submittedAt: new Date().toLocaleString("en-US", { dateStyle: "long", timeStyle: "short" }),
+          },
+        },
+      });
+      if (error) throw error;
+      toast({ title: "Inquiry sent! 🚀", description: "Our management team will be in touch shortly." });
+      setMgmtForm({ name: "", email: "", company: "", subject: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
+    } finally {
+      setMgmtSubmitting(false);
     }
   };
 
@@ -146,6 +175,82 @@ const Contact = () => {
                   <>
                     <Send className="w-4 h-4" />
                     Send message
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.3} className="mt-10">
+          <div className="glass-card p-8 md:p-10 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center">
+                <Briefcase className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <h3 className="font-heading text-xl md:text-2xl font-semibold">
+                  Management & partnerships
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Press, partnerships, or business inquiries — straight to our management team.
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleMgmtSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <Input
+                  placeholder="Your name *"
+                  value={mgmtForm.name}
+                  onChange={(e) => setMgmtForm({ ...mgmtForm, name: e.target.value })}
+                  disabled={mgmtSubmitting}
+                  required
+                />
+                <Input
+                  type="email"
+                  placeholder="you@company.com *"
+                  value={mgmtForm.email}
+                  onChange={(e) => setMgmtForm({ ...mgmtForm, email: e.target.value })}
+                  disabled={mgmtSubmitting}
+                  required
+                />
+              </div>
+              <Input
+                placeholder="Company / Organization"
+                value={mgmtForm.company}
+                onChange={(e) => setMgmtForm({ ...mgmtForm, company: e.target.value })}
+                disabled={mgmtSubmitting}
+              />
+              <Input
+                placeholder="Subject *"
+                value={mgmtForm.subject}
+                onChange={(e) => setMgmtForm({ ...mgmtForm, subject: e.target.value })}
+                disabled={mgmtSubmitting}
+                required
+              />
+              <Textarea
+                placeholder="Tell us about your inquiry *"
+                value={mgmtForm.message}
+                onChange={(e) => setMgmtForm({ ...mgmtForm, message: e.target.value })}
+                disabled={mgmtSubmitting}
+                rows={4}
+                required
+              />
+              <button
+                type="submit"
+                disabled={mgmtSubmitting}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-accent-foreground font-medium glow-button transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {mgmtSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Send inquiry
                   </>
                 )}
               </button>
