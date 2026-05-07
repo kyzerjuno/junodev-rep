@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import { useState } from "react";
-import { Rocket, Sparkles, Mail, Send, Loader2 } from "lucide-react";
+import { Rocket, Sparkles, Mail, Send, Loader2, Briefcase } from "lucide-react";
 import ProjectQuestionnaire from "./ProjectQuestionnaire";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
