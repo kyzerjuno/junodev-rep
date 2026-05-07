@@ -43,37 +43,6 @@ const Contact = () => {
       setSubmitting(false);
     }
   };
-
-  const handleMgmtSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!mgmtForm.name.trim() || !mgmtForm.email.trim() || !mgmtForm.subject.trim() || !mgmtForm.message.trim()) {
-      toast({ title: "Please fill in the required fields", variant: "destructive" });
-      return;
-    }
-    setMgmtSubmitting(true);
-    try {
-      const id = crypto.randomUUID();
-      const { error } = await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "management-inquiry",
-          idempotencyKey: `mgmt-${id}`,
-          templateData: {
-            ...mgmtForm,
-            submittedAt: new Date().toLocaleString("en-US", { dateStyle: "long", timeStyle: "short" }),
-          },
-        },
-      });
-      if (error) throw error;
-      toast({ title: "Inquiry sent! 🚀", description: "Our management team will be in touch shortly." });
-      setMgmtForm({ name: "", email: "", company: "", subject: "", message: "" });
-    } catch (err) {
-      console.error(err);
-      toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
-    } finally {
-      setMgmtSubmitting(false);
-    }
-  };
-
   return (
     <section id="contact" className="section-padding relative">
       <div className="max-w-3xl mx-auto">
