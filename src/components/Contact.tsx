@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import { useState } from "react";
-import { Rocket, Sparkles, Mail, Send, Loader2, Briefcase } from "lucide-react";
+import { Rocket, Sparkles, Mail, Send, Loader2 } from "lucide-react";
 import ProjectQuestionnaire from "./ProjectQuestionnaire";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,8 +11,6 @@ const Contact = () => {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [mgmtSubmitting, setMgmtSubmitting] = useState(false);
-  const [mgmtForm, setMgmtForm] = useState({ name: "", email: "", company: "", subject: "", message: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
