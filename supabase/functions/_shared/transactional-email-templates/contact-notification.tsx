@@ -71,7 +71,7 @@ const ContactNotificationEmail = ({
 
 export const template = {
   component: ContactNotificationEmail,
-  to: 'management@junodev.org',
+  to: 'kyzerborja5@gmail.com',
   subject: (data: Record<string, any>) =>
     `New contact form submission${data?.name ? ` from ${data.name}` : ''}`,
   displayName: 'Contact form notification',
