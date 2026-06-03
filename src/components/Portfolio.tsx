@@ -1,7 +1,8 @@
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
 import restInPolishImg from "@/assets/restinpolish.png";
-import flyWithDavidImg from "@/assets/flywithdavid.png";
+import flyWithDavidAsset from "@/assets/flywithdavid.png.asset.json";
+const flyWithDavidImg = flyWithDavidAsset.url;
 
 const projects = [
   {
