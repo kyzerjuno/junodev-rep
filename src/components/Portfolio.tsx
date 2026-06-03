@@ -1,6 +1,7 @@
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
 import restInPolishImg from "@/assets/restinpolish.png";
+import flyWithDavidImg from "@/assets/flywithdavid.png";
 
 const projects = [
   {
@@ -8,6 +9,12 @@ const projects = [
     category: "Nail Salon",
     image: restInPolishImg,
     url: "https://restinpolish.site/",
+  },
+  {
+    title: "Fly With David",
+    category: "Flight School",
+    image: flyWithDavidImg,
+    url: "https://flywithdavid.org",
   },
 ];
 
