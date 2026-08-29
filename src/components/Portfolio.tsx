@@ -1,6 +1,7 @@
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
 import restInPolishImg from "@/assets/restinpolish.png";
+import quickMobileMechanicImg from "@/assets/quickmobilemechanic.jpg";
 import flyWithDavidAsset from "@/assets/flywithdavid.png.asset.json";
 const flyWithDavidImg = flyWithDavidAsset.url;
 
@@ -16,6 +17,12 @@ const projects = [
     category: "Flight School",
     image: flyWithDavidImg,
     url: "https://flywithdavid.org",
+  },
+  {
+    title: "Quick Mobile Mechanic",
+    category: "Auto Repair",
+    image: quickMobileMechanicImg,
+    url: "https://quickmobilemechanic.com",
   },
 ];
 
